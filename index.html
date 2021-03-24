@@ -12,12 +12,15 @@
     <title>Boolzapp</title>
 </head>
 <body>
+    <!-- Root Vue Application -->
     <div id="app" class="container">
+        <!-- Parte destra -->
         <div class="cl_left">
+            <!-- user -->
             <div class="user">
                 <div class="my_info">
-                    <img src="img/avatar_io.jpg" alt="Foto Utente">
-                    <h1>Nome Utente</h1>
+                    <img :src="'img/avatar' + user.avatar + '.jpg'" alt="user.name">
+                    <h1>{{ user.name }}</h1>
                 </div>
                 <div class="icons">
                     <i class="fas fa-circle-notch"></i>
@@ -25,6 +28,8 @@
                     <i class="fas fa-ellipsis-v"></i>
                 </div>
             </div>
+            <!-- /user -->
+            <!-- notifications -->
             <div class="notifications">
                 <div class="bell_icon">
                     <i id="mood" class="fas fa-bell-slash"></i>
@@ -34,66 +39,69 @@
                     <p>Attiva notifiche desktop</p>
                 </div>
             </div>
+            <!-- /notifications -->
+            <!-- search -->
             <div class="search">
                 <div class="container_search">
                     <button><i class="fas fa-search"></i></button>
                     <input type="text" placeholder="Cerca o inizia una nuova chat">
                 </div>
             </div>
+            <!-- /search -->
+            <!-- chat_list -->
             <div class="chat_list">
-                <div class="row_friends">
-                    <img src="img/avatar_1.jpg" alt="">
-                    <h4>Michele</h4>
-                </div>
-                <div class="row_friends">
-                    <img src="img/avatar_2.jpg" alt="">
-                    <h4>Fabio</h4>
-                </div>
-                <div class="row_friends">
-                    <img src="img/avatar_3.jpg" alt="">
-                    <h4>Samuele</h4>
-                </div>
-                <div class="row_friends">
-                    <img src="img/avatar_4.jpg" alt="">
-                    <h4>Luisa</h4>
+                <div v-for="(contact, index) in contacts"
+                :class="{active:index == activeChat}" @click="activeChat = index" class="row_friends">
+                    <img :src=" 'img/avatar' + contact.avatar + '.jpg'" alt="user.contacts">
+                    <h4>{{ contact.name }}</h4>
                 </div>
             </div>
+            <!-- /chat_list -->
         </div>
+        <!-- Fine parte destra -->
+
+        <!-- Inizio parte sinistra -->
         <div class="cl_right">
+            <!-- user_chat -->
             <div class="user_chat">
-                <div class="info_user_chat">
+                <div v-if="activeChat != -1" class="info_user_chat">              
                     <div class="img_user_chat">
-                        <img src="img/avatar_1.jpg" alt="">
+                        <img :src="'img/avatar' + contacts[activeChat].avatar + '.jpg'" alt="">
                     </div>
                     <div class="name_access_user_chat">
-                        <h4>Michele</h4>
+                        <h4>{{contacts[activeChat].name}}</h4>
                         <p>Ultimo accesso oggi alle</p>
                     </div>
                 </div>
+                <div v-else class="user_chat"></div>
                 <div class="icons_user_chat">
                     <i class="fas fa-search"></i>
                     <i class="fas fa-paperclip"></i>
                     <i class="fas fa-ellipsis-v"></i>
                 </div>
             </div>
-            <div class="main_chat">
-                <div class="sms send">
-                    <p>Hai portato a spasso il cane?</p>
-                </div>
-                <div class="sms send">
-                    <p>Ricordati di dargli da mangiare</p>
-                </div>
-                <div class="sms received">
-                    <p>Tutto fatto!</p>
+            <!-- /user_chat -->
+            <!-- main_chat -->
+            <div v-if ="activeChat != -1" class="main_chat">
+                <div v-for= "message in contacts[activeChat].messages" class="row" :class="(message.status == 'received') ? 'row_chat_received' : 'row_chat_send' ">
+                    <div class="cloud">
+                        <p> {{ message.text }}</p>
+                    </div>
                 </div>
             </div>
+            <div v-else class ="main_chat"></div>
+            <!-- /main_chat -->
+            <!-- write_msg -->
             <div class="write_msg">
                 <i class="far fa-smile"></i>
                 <input class="send_msg"type="text" placeholder="Scrivi un messaggio">
                 <i class="fas fa-microphone"></i>    
             </div>
+            <!-- /write_msg -->
         </div>
+        <!-- Fine parte sinistra -->
     </div>
+    <!-- JS -->
     <script src="js/main.js"></script>
 </body>
 </html>
