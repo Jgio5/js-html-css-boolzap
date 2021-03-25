@@ -231,11 +231,15 @@ body {
 
 .cl_right .main_chat .cloud {
     display: flex;
-    align-items: center;
-    height: 40px;
+    flex-direction: column;
+    width: 40%;
     border-radius: 10px;
-    padding-left: 2%;
-    padding-right: 2%;
+    padding: 5px;
+}
+.cl_right .main_chat .cloud .date_message {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 10px;
 }
 
 .cl_right .main_chat .row.row_chat_send .cloud {

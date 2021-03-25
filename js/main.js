@@ -9,6 +9,10 @@ var app = new Vue( {
         activeChat : '-1',
         //nuova chat
         newMsg: '',
+        //ricerca del nome
+        nameSearch: '',
+        //emoticons
+        emoticon: ':)',
         contacts: [
         {
             name: 'Michele',
@@ -98,23 +102,53 @@ var app = new Vue( {
     methods : {
         sendNewMessage() {
             if(this.newMsg != '' && this.activeChat != -1)
-            var msgSent = new Object;
-            msgSent.date = '';
-            msgSent.text = this.newMsg;
-            msgSent.status = 'sent';
-            this.contacts[this.activeChat].messages.push(msgSent)
+            var msgSend = new Object;
+            msgSend.date = this.myDate() + " " + this.myTime();
+            msgSend.text = this.newMsg;
+            msgSend.status = 'sent';
+            this.contacts[this.activeChat].messages.push(msgSend)
             this.newMsg = '';
-            console.log(msgSent);
             setTimeout(this.autoAnswer, 500);
         },
         autoAnswer() {
             var msgReceived = new Object;
-            msgReceived.date = '';
-            msgReceived.text = 'ok';
+            msgReceived.date = this.myDate() + " " + this.myTime();
+            msgReceived.text = 'Ok';
             msgReceived.status = 'received';
             this.contacts[this.activeChat].messages.push(msgReceived)
+        },
+        sendSmile() {
+            if(this.activeChat != -1)
+            var smile = new Object;
+            smile.date = this.myDate() + " " + this.myTime();
+            smile.text = this.emoticon;
+            smile.status = 'sent';
+            this.contacts[this.activeChat].messages.push(smile);
+            setTimeout(this.autoSmile, 500);
+        },
+        autoSmile() {
+            var msgReceived = new Object;
+            msgReceived.date = this.myDate() + " " + this.myTime();
+            msgReceived.text = ':P';
+            msgReceived.status = 'received';
+            this.contacts[this.activeChat].messages.push(msgReceived)
+        },
+        myTime() {
+            var data = new Date();
+            var Hh, Mm, Ss;
+            Hh = data.getHours() + ":";
+            Mm = data.getMinutes() + ":";
+            Ss = data.getSeconds();
+            return Hh + Mm + Ss; 
+        },
+        myDate() {
+            var data = new Date();
+            var gg, mm, aaaa;
+            gg = data.getDate() + "/";
+            mm = data.getMonth() + 1 + "/";
+            aaaa = data.getFullYear();
+            return gg + mm + aaaa;
         }
-
     }
 });
 
@@ -132,3 +166,7 @@ Vue.config.devtools = true
 // Aggiunta di un messaggio: l’utente scrive un testo nella parte bassa e digitando “enter” il testo viene aggiunto al thread sopra, come messaggio verde
 // Risposta dall’interlocutore: ad ogni inserimento di un messaggio, l’utente riceverà un “ok” come risposta, che apparirà dopo 1 secondo.
 //far comparire anche sotto il nome utente in alto, la scritta (Tizio sta scrivendo...) per poi scomparire non appena arriva il messaggi ricevuto
+
+// Milestone4
+// Ricerca utenti: scrivendo qualcosa nell’input a sinistra, vengono visualizzati solo i contatti il cui nome contiene le lettere inserite
+// (es, Marco, Matteo Martina -> Scrivo “mar” rimangono solo Marco e Martina)

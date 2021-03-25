@@ -70,7 +70,7 @@
                     </div>
                     <div class="name_access_user_chat">
                         <h4>{{contacts[activeChat].name}}</h4>
-                        <p>Ultimo accesso oggi alle</p>
+                        <p>Ultimo accesso {{ myDate() }} alle {{ myTime() }} </p>
                     </div>
                 </div>
                 <div v-else class="user_chat"></div>
@@ -85,7 +85,8 @@
             <div v-if ="activeChat != -1" class="main_chat">
                 <div v-for= "message in contacts[activeChat].messages" class="row" :class="(message.status == 'received') ? 'row_chat_received' : 'row_chat_send' ">
                     <div class="cloud">
-                        <p> {{ message.text }}</p>
+                        <p>{{ message.text }}</p>
+                        <p class ="date_message">{{ message.date }}</p>
                     </div>
                 </div>
             </div>
@@ -93,7 +94,7 @@
             <!-- /main_chat -->
             <!-- write_msg -->
             <div class="write_msg">
-                <i class="far fa-smile"></i>
+                <i @click="sendSmile" v-model ="newMsg" class="far fa-smile"></i>
                 <input @keyup.enter="sendNewMessage" v-model="newMsg" class="send_msg" type="text" placeholder="Scrivi un messaggio">
                 <i class="fas fa-microphone"></i>    
             </div>
