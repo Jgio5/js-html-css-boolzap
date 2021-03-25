@@ -94,7 +94,7 @@
             <!-- write_msg -->
             <div class="write_msg">
                 <i class="far fa-smile"></i>
-                <input class="send_msg"type="text" placeholder="Scrivi un messaggio">
+                <input @keyup.enter="sendNewMessage" v-model="newMsg" class="send_msg" type="text" placeholder="Scrivi un messaggio">
                 <i class="fas fa-microphone"></i>    
             </div>
             <!-- /write_msg -->

@@ -5,6 +5,10 @@ var app = new Vue( {
             name: 'Giorgio Lopez',
             avatar: '_2'
         },
+        //parametro per selezionare l'utente e la chat da visualizzare
+        activeChat : '-1',
+        //nuova chat
+        newMsg: '',
         contacts: [
         {
             name: 'Michele',
@@ -90,8 +94,27 @@ var app = new Vue( {
             ],
         },
         ],
-    //parametro per selezionare l'utente e la chat da visualizzare
-    activeChat : '-1'
+    },
+    methods : {
+        sendNewMessage() {
+            if(this.newMsg != '' && this.activeChat != -1)
+            var msgSent = new Object;
+            msgSent.date = '';
+            msgSent.text = this.newMsg;
+            msgSent.status = 'sent';
+            this.contacts[this.activeChat].messages.push(msgSent)
+            this.newMsg = '';
+            console.log(msgSent);
+            setTimeout(this.autoAnswer, 500);
+        },
+        autoAnswer() {
+            var msgReceived = new Object;
+            msgReceived.date = '';
+            msgReceived.text = 'ok';
+            msgReceived.status = 'received';
+            this.contacts[this.activeChat].messages.push(msgReceived)
+        }
+
     }
 });
 
@@ -104,3 +127,8 @@ Vue.config.devtools = true
 // Milestone 2
 // Visualizzazione dinamica dei messaggi: tramite la direttiva v-for, visualizzare tutti i messaggi relativi al contatto attivo all’interno del pannello della conversazione
 // Click sul contatto mostra la conversazione del contatto cliccato
+
+// Milestone 3
+// Aggiunta di un messaggio: l’utente scrive un testo nella parte bassa e digitando “enter” il testo viene aggiunto al thread sopra, come messaggio verde
+// Risposta dall’interlocutore: ad ogni inserimento di un messaggio, l’utente riceverà un “ok” come risposta, che apparirà dopo 1 secondo.
+//far comparire anche sotto il nome utente in alto, la scritta (Tizio sta scrivendo...) per poi scomparire non appena arriva il messaggi ricevuto
