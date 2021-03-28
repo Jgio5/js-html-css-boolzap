@@ -44,14 +44,14 @@
             <div class="search">
                 <div class="container_search">
                     <button><i class="fas fa-search"></i></button>
-                    <input type="text" placeholder="Cerca o inizia una nuova chat">
+                    <input v-model="filterChatName" v-on:keyup="filterName()" type="text" placeholder="Cerca o inizia una nuova chat">
                 </div>
             </div>
             <!-- /search -->
             <!-- chat_list -->
             <div class="chat_list">
-                <div v-for="(contact, index) in contacts"
-                :class="{active:index == activeChat}" @click="activeChat = index" class="row_friends">
+                <div v-for="(contact, index, messages) in contacts"
+                :class="{active:index == activeChat, hidden:contact.visible == false}" @click="activeChat = index" class="row_friends">
                     <img :src=" 'img/avatar' + contact.avatar + '.jpg'" alt="user.contacts">
                     <div class="info_chat_friends">
                         <h4>{{ contact.name }}</h4>
@@ -89,7 +89,16 @@
             <div v-if ="activeChat != -1" class="main_chat">
                 <div v-for= "message in contacts[activeChat].messages" class="row" :class="(message.status == 'received') ? 'row_chat_received' : 'row_chat_send' ">
                     <div class="cloud">
-                        <p>{{ message.text }}</p>
+                        <div class="text_message">
+                            <p>{{ message.text }}</p>
+                            <div class="message_setting">
+                                <i class="fas fa-angle-down"></i>
+                                <!-- <div class="message_setting_box">
+                                    <p>Info Messaggio</p>
+                                    <p>Cancella Messaggio</p>
+                                </div> -->
+                            </div>
+                        </div>
                         <p class ="date_message">{{ message.date }}</p>
                     </div>
                 </div>

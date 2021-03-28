@@ -10,7 +10,7 @@ var app = new Vue( {
         //nuova chat
         newMsg: '',
         //ricerca del nome
-        nameSearch: '',
+        filterChatName: '',
         //emoticons
         emoticon: ':)',
         contacts: [
@@ -148,6 +148,16 @@ var app = new Vue( {
             mm = data.getMonth() + 1 + "/";
             aaaa = data.getFullYear();
             return gg + mm + aaaa;
+        },
+        filterName() {
+            let filterChatName = this.filterChatName.toUpperCase();
+            this.contacts.filter(function (contact) {
+                if (contact.name.toUpperCase().includes(filterChatName)) {
+                    contact.visible = true
+                } else {
+                    contact.visible = false
+                }
+            });
         }
     }
 });

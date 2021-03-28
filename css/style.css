@@ -170,12 +170,20 @@ body {
     background-color: grey;
 }
 
+.cl_left .chat_list .row_friends.hidden {
+    display: none;
+}
+
 .cl_left .chat_list .row_firends .info_chat_friends {
     display: flex;
     flex-direction: column;
 }
+.info_chat_friends > h5 {
+    color:rgb(90, 80, 80);
+}
 .info_chat_friends > p {
     font-size: 12px;
+    color: rgb(184, 184, 184);
 }
 
 
@@ -244,11 +252,22 @@ body {
     width: 40%;
     border-radius: 10px;
     padding: 5px;
+    overflow-wrap: break-word;
+}
+.cl_right .main_chat .cloud .text_message {
+    display: flex;
+    justify-content: space-between;
 }
 .cl_right .main_chat .cloud .date_message {
     display: flex;
     justify-content: flex-end;
     font-size: 10px;
+}
+
+.cl_right .main_chat .cloud .text_message i {
+font-size: 20px;
+color: lightgray;
+cursor: pointer;
 }
 
 .cl_right .main_chat .row.row_chat_send .cloud {
