@@ -4,118 +4,157 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- --- EXTERNAL --- -->
+    <!-- FONT AWESOME -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+    <!-- VUE.JS -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <!-- DAY,JS -->
+    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+    <!-- ----FONT--- -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <!-- --------- MY STYLE ------------ -->
     <link rel="stylesheet" href="css/style.css">
-    <title>Boolzapp</title>
+    <title>Boolzap</title>
 </head>
 <body>
-    <!-- Root Vue Application -->
-    <div id="app" class="container">
-        <!-- Parte destra -->
-        <div class="cl_left">
-            <!-- user -->
-            <div class="user">
-                <div class="my_info">
-                    <img :src="'img/avatar' + user.avatar + '.jpg'" alt="user.name">
-                    <h1>{{ user.name }}</h1>
-                </div>
-                <div class="icons">
-                    <i class="fas fa-circle-notch"></i>
-                    <i class="fas fa-comment-alt"></i>
-                    <i class="fas fa-ellipsis-v"></i>
-                </div>
-            </div>
-            <!-- /user -->
-            <!-- notifications -->
-            <div class="notifications">
-                <div class="bell_icon">
-                    <i id="mood" class="fas fa-bell-slash"></i>
-                </div>
-                <div class="text_bell_icon">
-                    <h4>Ricevi notifiche di nuovi messaggi</h4>
-                    <p>Attiva notifiche desktop</p>
-                </div>
-            </div>
-            <!-- /notifications -->
-            <!-- search -->
-            <div class="search">
-                <div class="container_search">
-                    <button><i class="fas fa-search"></i></button>
-                    <input v-model="filterChatName" v-on:keyup="filterName()" type="text" placeholder="Cerca o inizia una nuova chat">
-                </div>
-            </div>
-            <!-- /search -->
-            <!-- chat_list -->
-            <div class="chat_list">
-                <div v-for="(contact, index, messages) in contacts"
-                :class="{active:index == activeChat, hidden:contact.visible == false}" @click="activeChat = index" class="row_friends">
-                    <img :src=" 'img/avatar' + contact.avatar + '.jpg'" alt="user.contacts">
-                    <div class="info_chat_friends">
-                        <h4>{{ contact.name }}</h4>
-                        <h5>{{ contact.messages[contact.messages.length - 1].text }}</h5>
-                        <p>{{ contact.messages[contact.messages.length - 1].date }}</p>
-                    </div>
-                </div>
-            </div>
-            <!-- /chat_list -->
-        </div>
-        <!-- Fine parte destra -->
+    <div class="container-fluid">
 
-        <!-- Inizio parte sinistra -->
-        <div class="cl_right">
-            <!-- user_chat -->
-            <div class="user_chat">
-                <div v-if="activeChat != -1" class="info_user_chat">              
-                    <div class="img_user_chat">
-                        <img :src="'img/avatar' + contacts[activeChat].avatar + '.jpg'" alt="">
+        <!-- INIZIO MY APP----------- -->
+
+        <div id="myApp" class="container">
+
+            <!-- LEFT SECTION----------- -->
+            <div id="left_section">
+
+                <!-- USER HEADER----- -->
+                <div id="user_header">
+                    <div class="users_block">
+                        <img :src="'img/avatar' + user.avatar + '.jpg'" alt="">
+                        <span class="users_block_username">{{user.name}}</span>
                     </div>
-                    <div class="name_access_user_chat">
-                        <h4>{{contacts[activeChat].name}}</h4>
-                        <p>Ultimo accesso {{ myDate() }} alle {{ myTime() }} </p>
+                    <div id="user_header_settings">
+                        <ul class="menu_inline">
+                            <li><i class="fas fa-circle-notch"></i></li>
+                            <li><i class="fas fa-comment-alt"></i></li>
+                            <li><i class="fas fa-ellipsis-v"></i></li>
+                        </ul>
                     </div>
                 </div>
-                <div v-else class="user_chat"></div>
-                <div class="icons_user_chat">
-                    <i class="fas fa-search"></i>
-                    <i class="fas fa-paperclip"></i>
-                    <i class="fas fa-ellipsis-v"></i>
+
+                <!-- NOTIFICATIONS---- -->
+                <div id="notifications_section">
+                    <span><i class="fas fa-bell-slash"></i></span>
+                    <div>
+                        <p class="strong">Ricevi notifiche di nuovi messaggi</p>
+                        <p class="caption"><a href="#">Attiva notifiche desktop</a></p>
+                    </div>
+                </div>
+
+                <!-- SEARCH BAR---- -->
+                <div id="search_bar_section">
+                    <label for="search" class="bg_white"><i class="fas fa-search"></i></label>
+                    <input v-model="filterChat" class="bg_white" type="text" v-on:keyup="filterSearch()" placeholder="Cerca o inizia una nuova chat">
+                </div>
+
+                <!-- CHATLIST----- -->
+                <div id="chat_list_section" class="bg_white">
+                    
+                    <!-- SINGLE CHAT ROW------ -->
+            
+                    <div v-for="(contact, index, messages) in contacts" 
+                    :class="{active:index == activeChat, hidden:contact.visible == false}"  @click="activeChat = index" class="users_block users_chat">
+                        <div class="profile_pic">
+                            <img :src="'img/avatar' + contact.avatar + '.jpg'" alt="">
+                        </div>
+                        <div class="info_chat">
+                            <div class="info_chat_top">
+                                <span class="users_block_username">{{contact.name}}</span>
+                                <span class="last_msg_time">{{contact.messages[contact.messages.length-1].date}}</span>
+                            </div>
+                            <div class="last_msg">{{contact.messages[contact.messages.length-1].text}}</div>
+                        </div>
+                        
+                        
+                    </div>
                 </div>
             </div>
-            <!-- /user_chat -->
-            <!-- main_chat -->
-            <div v-if ="activeChat != -1" class="main_chat">
-                <div v-for= "message in contacts[activeChat].messages" class="row" :class="(message.status == 'received') ? 'row_chat_received' : 'row_chat_send' ">
-                    <div class="cloud">
-                        <div class="text_message">
-                            <p>{{ message.text }}</p>
+
+
+            <!-- RIGHT SECTION----------- -->
+            <div v-if="activeChat == -1" id="right_section" class="empty">
+                <div>
+                    <img src="img/resta_connesso.jpg" alt="">
+                    <h2>Mantieni il telefono connesso</h2>
+                    <p>WhatsApp si collega ai tuo telefono per sincronizzare i messaggi. Per ridurre l'utilizzo dei dati collega il telefono al WI-Fi.</p>
+                    <hr>
+                    <p><span><i class="fas fa-laptop"></i></span> WhatsApp è disponibile per Windows. <a href="#">Scarica qui.</a></p>
+                </div>
+            </div>
+            <div v-else id="right_section">
+                <!-- HEADER CHAT----- -->
+                <div id="header_chat">
+                    <div class="users_block">
+                        <div class="profile_pic">
+                            <img :src="'img/avatar' + contacts[activeChat].avatar + '.jpg'" alt="">
+                        </div>
+                        <div class="info_chat">
+                            <div class="info_chat_top">
+                                <span class="users_block_username">{{contacts[activeChat].name}}</span>
+                            </div>
+                            <div class="last_msg_time">Ultimo accesso {{contacts[activeChat].messages[contacts[activeChat].messages.length-1].date}}</div>
+                        </div>
+                    </div>
+
+                    <div id="header_chat_settings">
+                        <ul class="menu_inline">
+                            <li><i class="fas fa-search"></i></li>
+                            <li><i class="fas fa-paperclip"></i></li>
+                            <li><i class="fas fa-ellipsis-v"></i></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- MESSAGE SECTION---- -->
+                <div id="message_section">
+
+                    <!-- SINGLE MSG ROW---------- -->
+                    <div v-for="(message, index) in contacts[activeChat].messages" class="message_row":class="(message.status == 'received')?'message_received':'message_sent'">
+
+                        <!-- SINGLE MSG CLOUD--------- -->
+                        <div class="message_cloud">
+                            <p class="message_text">{{message.text}}</p>
+                            <p class="message_date">{{message.date}}</p>
+
                             <div class="message_setting">
-                                <i class="fas fa-angle-down"></i>
-                                <!-- <div class="message_setting_box">
+                                <i class="fas fa-chevron-down" @click="showSettingBox(index)"></i>
+
+                                <!-- MSG SETTING BOX---------- -->
+                                <div class="message_setting_box" :class="{active:index == activeBoxSettings}" @mouseleave="activeBoxSettings ='-1'">
                                     <p>Info Messaggio</p>
-                                    <p>Cancella Messaggio</p>
-                                </div> -->
+                                    <p @click="deleteMsg(index),activeBoxSettings ='-1'">Cancella Messaggio</p>
+                                </div>
                             </div>
                         </div>
-                        <p class ="date_message">{{ message.date }}</p>
-                    </div>
+                    </div>                         
+                </div>
+
+                <!-- INPUT SECTION---- -->
+                <div id="input_message_section">
+                    <div><i @click="sendSmile" v-model ="newMsg" class="far fa-smile"></i></div>
+                    <div id="message_input">
+                        <input v-model="newMsg" type="text" placeholder="Scrivi un messaggio" @keyup.enter="sendMsg()"></div>
+                    <div><i class="fas fa-microphone"></i></div>
                 </div>
             </div>
-            <div v-else class ="main_chat"></div>
-            <!-- /main_chat -->
-            <!-- write_msg -->
-            <div class="write_msg">
-                <i @click="sendSmile" v-model ="newMsg" class="far fa-smile"></i>
-                <input @keyup.enter="sendNewMessage" v-model="newMsg" class="send_msg" type="text" placeholder="Scrivi un messaggio">
-                <i class="fas fa-microphone"></i>    
-            </div>
-            <!-- /write_msg -->
+            
         </div>
-        <!-- Fine parte sinistra -->
+
+        <!-- FINE MY APP------------- -->
     </div>
-    <!-- JS -->
+
     <script src="js/main.js"></script>
 </body>
 </html>
